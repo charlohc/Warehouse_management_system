@@ -1,8 +1,7 @@
-import Exceptions.InvalidHexCodeException;
-import Exceptions.InvalidNumberExceptionNegative;
-import Exceptions.InvalidNumberExceptionNegativeOrZero;
-import Exceptions.NoInputException;
-import jdk.jfr.Name;
+import exceptions.InvalidHexCodeException;
+import exceptions.InvalidNumberExceptionNegative;
+import exceptions.InvalidNumberExceptionNegativeOrZero;
+import exceptions.NoInputException;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -86,23 +85,19 @@ public class ItemTest {
     }
 
     @Nested
-    @DisplayName("Test of the set methods with invalid input should throw exceptions")
+    @DisplayName("Test of the set methods with invalid input should get false as returned boolean")
     class SetMethodsInvalidInputThrowsException {
 
         @Test
-        @Name("Attempt setting the price of the item to a negative price")
-        void SetPriceNegative() {
-
-            assertThrows(InvalidNumberExceptionNegativeOrZero.class, () -> {
-                itemDoorFullFunctioning.setPrice(-450);
-            });
+        @DisplayName("Attempt setting the price of the item to a negative price")
+        void SetPriceNegativeGivesFalse() {
+            Assertions.assertFalse(itemDoorFullFunctioning.setPrice(-450));
         }
 
         @Test
+        @DisplayName("Attempt setting the item amount in warehouse to negative value")
         void setNumbersInWarehouseNegative() {
-            assertThrows(InvalidNumberExceptionNegative.class, () -> {
-                itemDoorFullFunctioning.setNumbersInWarehouse(-2);
-            });
+            Assertions.assertFalse(itemDoorFullFunctioning.setNumbersInWarehouse(-2));
         }
 
     }
@@ -111,7 +106,7 @@ public class ItemTest {
         class validationMethodsWithValidInput {
             @Test
             void isValidStringInputDescription() {
-                Assertions.assertDoesNotThrow(() -> Item.isValidStringInput(itemDoorFullFunctioning.getDescription()));
+                Assertions.assertDoesNotThrow(() -> Item.isValidInputNotBlank(itemDoorFullFunctioning.getDescription()));
             }
 
             @Test

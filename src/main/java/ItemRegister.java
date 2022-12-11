@@ -1,17 +1,17 @@
-import Exceptions.InvalidHexCodeException;
-import Exceptions.InvalidNumberExceptionNegative;
-import Exceptions.InvalidNumberExceptionNegativeOrZero;
-import Exceptions.NoInputException;
 import java.util.ArrayList;
 
 
-//TODO: legg inn lambda
+//TODO: legg inn lambda, legg inn slik at konsekvent true eller false return først
 
 /**
  * Register class which holds all the items and several important methods such as.
  */
 public class ItemRegister {
-  private ArrayList<Item> items;
+  private final ArrayList<Item> items;
+
+  public ItemRegister() {
+    this.items = new ArrayList<Item>();
+  }
 
   public ItemRegister(ArrayList<Item> items) {
     this.items = items;
@@ -22,40 +22,46 @@ public class ItemRegister {
      *
      * @return item
    */
-  public int numbersOfItemsInWarehouse() {
-    int totNumberOfItemsWarehouse = 0;
-
-    for (Item item : items) {
-      totNumberOfItemsWarehouse ++;
-    }
-    return totNumberOfItemsWarehouse;
+  public int numberOfDifferentItemsInWarehouse() {
+    return items.size();
   }
 
-  //TODO: when checking need to make sure of upper and lowercase,
-  // checks for both but does it work when one is blank?
+  /**
+   *Method that gets and returns the item number.
+   *
+   * @return item
+   */
+  public int totalNumberOfItemsInWarehouse() {
+    int totalNumberOfEachItemType = 0;
 
+    for (Item itemType : items) {
+      totalNumberOfEachItemType += itemType.getNumbersInWarehouse();
+    }
+    return totalNumberOfEachItemType;
+  }
 
   /**
      *Method that gets and returns the item number.
      *
      * @return item
   */
-
-  //TODO: lag teksten til en array hvor splitter på mellom rom, og hvis den inneholder 2/3 av søke ordene gi som forslag
-  //send da en array med tekst forslag, negativt kan få ganske høy tidskompleksitet hvis veldig mage varer i vare huset
-  //TODO: burde ha et tall, hvis 1 søker ved hjelp av beskrivelse hvis 2 med nummer - burde bare ha to separate metoder?
   public ArrayList<Item> findItemBasedOnDescription(String itemDescription) {
     ArrayList<Item> itemMatchesDescription = new ArrayList<>();
 
-    for(Item item : items) {
-      if(item.getDescription().equalsIgnoreCase(itemDescription)) {
+    for (Item item : items) {
+      if (item.getDescription().equalsIgnoreCase(itemDescription)) {
         itemMatchesDescription.add(item);
       }
     }
     return itemMatchesDescription;
   }
 
-  public Item findItemBasedOnItemNumber(String itemNumber){
+  /**
+   *Method that gets and returns the item number.
+   *
+   * @return item
+   */
+  public Item findItemBasedOnItemNumber(String itemNumber) {
     for (Item item : items) {
       if (item.getItemNumber().equalsIgnoreCase(itemNumber)) {
         return item;
@@ -63,7 +69,6 @@ public class ItemRegister {
     }
     return null;
   }
-
 
   /**
      *Method that gets and returns the item number.
@@ -82,12 +87,13 @@ public class ItemRegister {
 
   /**
      *Method that gets and returns the item number.
+     * TODO: write comment that says allow increase and decrease with 0 incase of user
      *
   */
-  public Boolean increaseInItemInventory(Item item, int numbersOfItemsIncrease) throws InvalidNumberExceptionNegativeOrZero {
-    if (numbersOfItemsIncrease <= 0){
+  public Boolean increaseNumbersOfItemsOfTypeInWarehouse(Item item, int numbersOfItemsIncrease) {
+    if (numbersOfItemsIncrease < 0) {
       return false;
-    }else {
+    } else {
       item.setNumbersInWarehouse(item.getNumbersInWarehouse() + numbersOfItemsIncrease);
       return true;
     }
@@ -101,25 +107,27 @@ public class ItemRegister {
      * @return item
   */
   //TODO: make sure that inventory is not negative
-  public Boolean decreaseInItemInventory(Item item, int numbersOfItemsDecrease) throws InvalidNumberExceptionNegativeOrZero {
-    int newItemInventory = item.getNumbersInWarehouse() - numbersOfItemsDecrease;
-    if (newItemInventory < 0) {
+  public Boolean decreaseNumbersOfItemsOfTypeInWarehouse(Item item, int numbersOfItemsDecrease) {
+    if (numbersOfItemsDecrease < 0 || (item.getNumbersInWarehouse() - numbersOfItemsDecrease) < 0) {
       return false;
     }
-    item.setNumbersInWarehouse(newItemInventory);
+    item.setNumbersInWarehouse((item.getNumbersInWarehouse() - numbersOfItemsDecrease));
     return true;
   }
 
 
   /**
      *Method that gets and returns the item number.
+     * Removes the item type and every instance of it in the warehouse
      *
   */
-  //Todo: need o check if it is in the inventory? tries to delete
-  public void removeItemFromInventory(Item item) {
-    items.remove(item);
+  public boolean removeItemFromInventory(Item itemToBeRemoved) {
+    if (items.contains(itemToBeRemoved)) {
+      items.remove(itemToBeRemoved);
+      return true;
+    }
+    return false;
   }
-
 
   /**
      *Method that gets and returns the item number.
@@ -130,9 +138,12 @@ public class ItemRegister {
   */
   //TODO: explain why divided discount, price and description into three methods instead of one
   public int discount(Item item, int discountPercentage) {
-    return item.getPrice() - (item.getPrice() * discountPercentage);
-  }
+    if (discountPercentage >= 0) {
+      return (item.getPrice() / 100) * discountPercentage;
+    }
 
+    return -1;
+  }
 
   /**
      *Method that gets and returns the item number.
@@ -141,19 +152,18 @@ public class ItemRegister {
      * @param newPrice price
      * @return item
   */
-  public int newPrice(Item item, int newPrice) throws InvalidNumberExceptionNegativeOrZero {
+  public int newPrice(Item item, int newPrice)  {
     item.setPrice(newPrice);
     return item.getPrice();
   }
 
-
   /**
      *Method that gets and returns the item number.
-     *
+     *TODO: må gjøre til kul boks
      * @return item
   */
   @Override
   public String toString() {
-    return "ItemRegister" + "" + "items" + items + ", numbersOfItems=" + items.size() ;
+    return "ItemRegister" + "" + "items" + items ;
   }
 }
