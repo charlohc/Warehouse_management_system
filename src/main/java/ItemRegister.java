@@ -90,7 +90,8 @@ public class ItemRegister {
      * TODO: write comment that says allow increase and decrease with 0 incase of user
      *
   */
-  public Boolean increaseNumbersOfItemsOfTypeInWarehouse(Item item, int numbersOfItemsIncrease) {
+  public Boolean increaseNumbersOfItemsOfTypeInWarehouse(String itemNumber, int numbersOfItemsIncrease) {
+    Item item = this.findItemBasedOnItemNumber(itemNumber);
     if (numbersOfItemsIncrease < 0) {
       return false;
     } else {
@@ -102,12 +103,13 @@ public class ItemRegister {
   /**
      *Method that gets and returns the item number.
      *
-     * @param item item.
+     * @param itemNumber item.
      * @param numbersOfItemsDecrease item.
      * @return item
   */
   //TODO: make sure that inventory is not negative
-  public Boolean decreaseNumbersOfItemsOfTypeInWarehouse(Item item, int numbersOfItemsDecrease) {
+  public Boolean decreaseNumbersOfItemsOfTypeInWarehouse(String itemNumber, int numbersOfItemsDecrease) {
+    Item item = this.findItemBasedOnItemNumber(itemNumber);
     if (numbersOfItemsDecrease < 0 || (item.getNumbersInWarehouse() - numbersOfItemsDecrease) < 0) {
       return false;
     }
@@ -121,7 +123,8 @@ public class ItemRegister {
      * Removes the item type and every instance of it in the warehouse
      *
   */
-  public boolean removeItemFromInventory(Item itemToBeRemoved) {
+  public boolean removeItemFromInventory(String itemNumberItemToBeRemoved) {
+    Item itemToBeRemoved = this.findItemBasedOnItemNumber(itemNumberItemToBeRemoved);
     if (items.contains(itemToBeRemoved)) {
       items.remove(itemToBeRemoved);
       return true;
@@ -132,12 +135,13 @@ public class ItemRegister {
   /**
      *Method that gets and returns the item number.
      *
-     * @param item item
+     * @param itemNumberDiscount item
      * @param discountPercentage param
      * @return item
   */
   //TODO: explain why divided discount, price and description into three methods instead of one
-  public int discount(Item item, int discountPercentage) {
+  public int discount(String itemNumberDiscount, int discountPercentage) {
+    Item item = this.findItemBasedOnItemNumber(itemNumberDiscount);
     if (discountPercentage >= 0) {
       return (item.getPrice() / 100) * discountPercentage;
     }
@@ -148,11 +152,12 @@ public class ItemRegister {
   /**
      *Method that gets and returns the item number.
      *
-     * @param item item
+     * @param itemNumberNewPrice item
      * @param newPrice price
      * @return item
   */
-  public int newPrice(Item item, int newPrice)  {
+  public int newPrice(String itemNumberNewPrice, int newPrice)  {
+    Item item = this.findItemBasedOnItemNumber(itemNumberNewPrice);
     item.setPrice(newPrice);
     return item.getPrice();
   }
@@ -167,7 +172,7 @@ public class ItemRegister {
 
   /**
      *Method that gets and returns the item number.
-     *TODO: må gjøre til kul boks
+     *
      * @return item
   */
   @Override

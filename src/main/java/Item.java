@@ -1,13 +1,9 @@
-import exceptions.InvalidHexCodeException;
 import exceptions.InvalidNumberExceptionNegative;
 import exceptions.InvalidNumberExceptionNegativeOrZero;
 import exceptions.NoInputException;
 
-import java.awt.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
 
-//TODO: må ha sjekk på at itemnumber ikke eksisterer
 /**
  * Entity class Item which initializes an item based on price,
  * brand name, weight, length, colour,
@@ -22,7 +18,7 @@ public class Item {
   private double weight;
   private double length;
   private double height;
-  private String colour;
+  private Colour colour;
   private int numbersInWarehouse;
   private Category category;
 
@@ -43,8 +39,6 @@ public class Item {
    * @param categoryInput an enum from the Category class, from the class you can choose from four
    *                    different categories: floorlaminates, windows, doors and lumber
    * @throws NoInputException throws an exception if the input from user is blank
-   * @throws InvalidHexCodeException throws an exception if the colour input from user does
-   *                    match a valid hex code
    * @throws InvalidNumberExceptionNegativeOrZero throws an exception if the user input number
    *                    is negative or zero
    * @throws InvalidNumberExceptionNegative throws an exception if the user input is negative
@@ -52,8 +46,8 @@ public class Item {
 
   public Item(String itemNumberInput, String descriptionInput, int priceInput,
               String brandNameInput, double weightInput, double lengthInput,
-              double heightInput, String colourInput, int numbersInWarehouseInput,
-              Category categoryInput) throws NoInputException, InvalidHexCodeException,
+              double heightInput, Colour colourInput, int numbersInWarehouseInput,
+              Category categoryInput) throws NoInputException,
           InvalidNumberExceptionNegativeOrZero, InvalidNumberExceptionNegative {
 
     if (!isValidInputNotBlank(itemNumberInput) || !isValidInputNotBlank(descriptionInput)
@@ -68,9 +62,6 @@ public class Item {
             || !isValidNumberInputNotNegativeOrZero(lengthInput)
             || !isValidNumberInputNotNegativeOrZero(heightInput)) {
       throw new InvalidNumberExceptionNegativeOrZero("\n Number input can not be negative or zero");
-
-    } else if (!isValidHexCode(colourInput)) {
-      throw new InvalidHexCodeException("not a valid hex code");
 
     } else {
       this.itemNumber = itemNumberInput;
@@ -124,7 +115,7 @@ public class Item {
   }
 
 
-  public String getColour() {
+  public Colour getColour() {
     return colour;
   }
 
@@ -189,21 +180,6 @@ public class Item {
     return number >= 0;
   }
 
-  /**
-     *Method that checks if the given hex code is a valid hex code.
-     * TODO: write more about functionality of code
-  */
-
-  public static Boolean isValidHexCode(String colourCode) {
-    String hexColourPattern = "^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$";
-
-    Pattern pattern = Pattern.compile(hexColourPattern);
-
-    Matcher matcher = pattern.matcher(colourCode);
-    return matcher.matches();
-  }
-
-
   public int lengthOfNumberInputInteger(Integer number) {
     return (int) (Math.log10(number)+1);
   }
@@ -218,26 +194,26 @@ public class Item {
   public String toString() {
     return "\n"
             +  "+" + "-".repeat(20) + " + " + "-".repeat(35) + "+" + "\n"
-                + "|" +  "ItemNumber " + " ".repeat(10) + "|" + itemNumber +
+                + "|" +  "ItemNumber " + " ".repeat(10) + "| " + itemNumber +
             " ".repeat(36-itemNumber.length()) + "|" + " \n"
             +  "+" + "-".repeat(20) + " + " + "-".repeat(35) + "+" + "\n"
-            + "| " +  "Category" + " ".repeat(12) + "|" + category +
+            + "| " +  "Category" + " ".repeat(12) + "| " + category +
             " ".repeat(36-category.toString().length()) + "|" + " \n"
-            + "| " +  "Description" + " ".repeat(9) + "|" + description +
+            + "| " +  "Description" + " ".repeat(9) + "| " + description +
             " ".repeat(36-description.length()) + "|" + " \n"
-            + "| " +  "Colour (Hex code)" + " ".repeat(3) + "|" + colour +
-            " ".repeat(36-colour.length()) + "|" + " \n"
-            + "| " +  "Price" + " ".repeat(15) + "|" + price +
+            + "| " +  "Colour (Hex code)" + " ".repeat(3) + "| " + colour +
+            " ".repeat(36-colour.toString().length()) + "|" + " \n"
+            + "| " +  "Price" + " ".repeat(15) + "| " + price +
             " ".repeat(36 - lengthOfNumberInputInteger( price)) + "|" + " \n"
-            + "| " +  "Brand" + " ".repeat(15) + "|" + brandName +
+            + "| " +  "Brand" + " ".repeat(15) + "| " + brandName +
             " ".repeat(36-brandName.length()) + "|" + " \n"
-            + "| " +  "Weight (kg)" + " ".repeat(9) + "|" + weight +
+            + "| " +  "Weight (kg)" + " ".repeat(9) + "| " + weight +
             " ".repeat(36- lengthOfNumberInputDouble(weight)) + "|" + " \n"
-            + "| " +  "Length (m)" + " ".repeat(10) + "|" + length +
+            + "| " +  "Length (m)" + " ".repeat(10) + "| " + length +
             " ".repeat(36- lengthOfNumberInputDouble(length)) + "|" + " \n"
-            + "| " +  "Height (m)" + " ".repeat(10) + "|" + height +
+            + "| " +  "Height (m)" + " ".repeat(10) + "| " + height +
             " ".repeat(36- lengthOfNumberInputDouble(height)) + "|" + " \n"
-            + "| " +  "Stock in warehouse" + " ".repeat(2) + "|" + numbersInWarehouse +
+            + "| " +  "Stock in warehouse" + " ".repeat(2) + "| " + numbersInWarehouse +
             " ".repeat(36- lengthOfNumberInputInteger(numbersInWarehouse)) + "|" + " \n"
             + "+" + "-".repeat(20) + " + " + "-".repeat(35) + "+"  + "\n";
 

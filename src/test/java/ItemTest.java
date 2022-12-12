@@ -1,4 +1,3 @@
-import exceptions.InvalidHexCodeException;
 import exceptions.InvalidNumberExceptionNegative;
 import exceptions.InvalidNumberExceptionNegativeOrZero;
 import exceptions.NoInputException;
@@ -9,9 +8,9 @@ public class ItemTest {
     Item itemDoorFullFunctioning;
 
     @BeforeEach
-    void setUp() throws InvalidNumberExceptionNegativeOrZero, NoInputException, InvalidHexCodeException, InvalidNumberExceptionNegative {
+    void setUp() throws InvalidNumberExceptionNegativeOrZero, NoInputException, InvalidNumberExceptionNegative {
         itemDoorFullFunctioning = new Item("AQ378912", "White Door with one small window", 2050,
-                "Swedoor", 5, 0.4, 2.05, "#FFFFFF", 14, Category.DOORS);
+                "Swedoor", 5, 0.4, 2.05, Colour.WHITE, 14, Category.DOORS);
     }
 
     @Nested
@@ -118,17 +117,6 @@ public class ItemTest {
             void isValidNumberInputWeight() {
                 Assertions.assertDoesNotThrow(() -> Item.isValidNumberInputNotNegativeOrZero(itemDoorFullFunctioning.getWeight()));
             }
-
-            @Test
-            void testIsValidHexCode() {
-                Assertions.assertDoesNotThrow(() -> Item.isValidHexCode(itemDoorFullFunctioning.getColour()));
-            }
-
-            @Test
-            void testHexCodeToColour() {
-                Item item = new Item();
-                item.hexCodeToColourName("#FFFFFF");
-            }
         }
 
     @Nested
@@ -139,7 +127,7 @@ public class ItemTest {
 
             assertThrows(NoInputException.class, () -> {
                 Item itemWithoutOutDescription = new Item("AQ378912", " ", 2050,
-                        "Swedoor", 5, 0.4, 2.05, "#FFFFFF", 14, Category.DOORS);
+                        "Swedoor", 5, 0.4, 2.05, Colour.WHITE, 14, Category.DOORS);
 
             });
 
@@ -150,39 +138,12 @@ public class ItemTest {
 
             assertThrows(InvalidNumberExceptionNegativeOrZero.class, () -> {
                 Item itemWithZeroWeight = new Item("AQ378912", "White door with small window ", 2050,
-                        "Swedoor", 0, 0.4, 2.05, "#FFFFFF", 14, Category.DOORS);
+                        "Swedoor", 0, 0.4, 2.05, Colour.WHITE, 14, Category.DOORS);
 
             });
 
         }
 
-        @Test
-        void invalidHexCodeToLong() {
-           assertThrows(InvalidHexCodeException.class, () -> {
-                Item itemWithTooLongHexCode = new Item("AQ378912", "White door with small window ", 2050,
-                        "Swedoor", 5, 0.4, 2.05, "#ABC1233", 14, Category.DOORS);
-
-            });
-
-        }
-
-        @Test
-        void invalidHexCodeMissingHashtag() {
-            assertThrows(InvalidHexCodeException.class, () -> {
-                Item itemWithHexCodeWithoutHashtag = new Item("AQ378912", "White door with small window ", 2050,
-                        "Swedoor", 5, 0.4, 2.05, "123454", 14, Category.DOORS);
-            });
-
-        }
-
-        @Test
-        void invalidHexCodeChars() {
-            assertThrows(InvalidHexCodeException.class, () -> {
-                Item itemWithHexCodeWithoutHashtag = new Item("AQ378912", "White door with small window ", 2050,
-                        "Swedoor", 5, 0.4, 2.05, "#AB!344", 14, Category.DOORS);
-            });
-
-        }
     }
 
 
