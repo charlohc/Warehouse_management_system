@@ -2,12 +2,15 @@ import exceptions.InvalidHexCodeException;
 import exceptions.InvalidNumberExceptionNegative;
 import exceptions.InvalidNumberExceptionNegativeOrZero;
 import exceptions.NoInputException;
-
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
+
+//TODO: hvis tid, legge inn mer rimelig rekkefølge på attributtene,lage definert item number
 public class GUI {
     private ItemRegister itemRegister;
+    private Item item;
 
     private final int ADD_NEW_ITEM = 1;
     private final int LIST_ITEM_TYPES_WAREHOUSE = 2;
@@ -23,7 +26,7 @@ public class GUI {
     private int showMenu() {
         int menuChoice = 0;
         System.out.println("\n***** Item Register Menu *****\n");
-        System.out.println("1. Add a new item type to the register");
+        System.out.println( "1. Add a new item type to the register");
         System.out.println("2. List all item types");
         System.out.println("3. Search for an item based on description");
         System.out.println("4. Search for an item based on item number");
@@ -36,10 +39,12 @@ public class GUI {
         System.out.println("\nPlease select from the menu.\n");
 
         Scanner sc = new Scanner(System.in);
-        if (sc.hasNextInt()) {
+         if(sc.toString().equals("x")) {
+            menuChoice = Integer.parseInt(sc.next());
+        } else if (sc.hasNextInt()) {
             menuChoice = sc.nextInt();
         } else {
-            System.out.println("You must enter a number, not text");
+            System.out.println("You must enter a number or x for exiting, no other input is accepted!");
         }
         return menuChoice;
     }
@@ -51,17 +56,218 @@ public class GUI {
      */
     public void start() {
         boolean finished = false;
+        boolean launch = true;
+        item = new Item();
+        Scanner stringScanner = new Scanner(System.in);
+        Scanner numberScanner = new Scanner(System.in);
+
         // The while-loop will run as long as the user has not selected
         // to quit the application
         while (!finished) {
+            if(!launch) {
+                try {
+                    TimeUnit.SECONDS.sleep(3);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            launch = false;
+
             int menuChoice = this.showMenu();
+
             switch (menuChoice) {
                 case ADD_NEW_ITEM:
-                    System.out.println("new item");
+                    boolean inputNameBlank = true;
+                    boolean descriptionBlank = true;
+                    boolean priceBlankOrNegative = true;
+                    boolean brandNameBlank = true;
+                    boolean weightBlankOrNegative = true;
+                    boolean lengthBlankOrNegative = true;
+                    boolean heightBlankOrNegative = true;
+                    boolean colourIncorrect = true;
+                    boolean numbersInWarehouseBlankOrNegative = true;
+                    boolean incorrectCategoryInput = true;
+
+                    System.out.println("To add a new item to the register, we first need som data about the item." + "\n");
+
+                    String itemNumber = null;
+                    while(inputNameBlank) {
+                        System.out.println("Item number: ");
+                        System.out.println("(String of numbers and letters)");
+                        itemNumber = stringScanner.nextLine();
+                        if(itemNumber.trim().length() == 0 || !itemNumber.matches("[a-zA-Z0-9 ]*")) {
+                            System.out.println("Item number cannot be blank! Try again... \n");
+                        } else {
+                            inputNameBlank = false;
+                        }
+                    }
+
+                    String description = null;
+                    while (descriptionBlank) {
+                        System.out.println("Short description (max. 35 signs): ");
+                        System.out.println("Format: Colour name(not hex code) + category, Example: White window");
+                        description = stringScanner.nextLine();
+                        if(description.trim().equals(" ")) {
+                            System.out.println("Description cannot be blank or contain special characters! Try again... \n");
+                        } else {
+                            descriptionBlank = false;
+                        }
+                    }
+
+                    int price = 0;
+                    while (priceBlankOrNegative) {
+                        System.out.println("Price in kr: ");
+                        System.out.println("(Must be an integer)");
+                        price = numberScanner.nextInt();
+                        if(price <= 0 || item.lengthOfNumberInputInteger(price) == 0) {
+                            System.out.println("Description cannot be blank! Try again... \n");
+                        } else {
+                            priceBlankOrNegative = false;
+                        }
+                    }
+
+                    String brandName = null;
+                    while (brandNameBlank) {
+                        System.out.println("Brand name: ");
+                        brandName = stringScanner.nextLine();
+                        if(brandName.trim().equals(" ")) {
+                            System.out.println("Brand name cannot be blank! Try again... \n");
+                        } else {
+                            brandNameBlank = false;
+                        }
+                    }
+
+                    double weight = 0;
+                    while (weightBlankOrNegative) {
+                        System.out.println("Weight in kg: ");
+                        System.out.println("(decimal number must be made with ',')");
+                        weight = numberScanner.nextDouble();
+                        if(weight <= 0 || item.lengthOfNumberInputDouble(weight) == 0) {
+                            System.out.println("Weight cannot be blank or set to zero or a negative value! Try again... \n");
+                        } else {
+                            weightBlankOrNegative = false;
+                        }
+                    }
+
+                    double length = 0;
+                    while (lengthBlankOrNegative) {
+                        System.out.println("Length in m: ");
+                        System.out.println("(decimal number must be made with ',')");
+                        length = numberScanner.nextDouble();
+                        if(length <= 0 || item.lengthOfNumberInputDouble(length) == 0) {
+                            System.out.println("Length cannot be blank or set to zero or a negative value! Try again... \n");
+                        } else {
+                            lengthBlankOrNegative = false;
+                        }
+                    }
+
+                    double height = 0;
+                    while (heightBlankOrNegative) {
+                        System.out.println("Height in m: ");
+                        System.out.println("(decimal number must be made with ',')");
+                        height = numberScanner.nextDouble();
+                        if(height <= 0 || item.lengthOfNumberInputDouble(height) == 0) {
+                            System.out.println("Height cannot be blank or set to zero or a negative value! Try again... \n");
+                        } else {
+                            heightBlankOrNegative = false;
+                        }
+                    }
+
+                    String colour = null;
+                    while (colourIncorrect) {
+                        System.out.println("Colour: ");
+                        System.out.println("1: Black, 2: White, 3: Grey, 4: Brown, 5: Red, 6: Blue");
+                        int colourInt = stringScanner.nextInt();
+
+                        if (colourInt == 1) {
+                            colour = String.valueOf(Colour.BLACK);
+                            colourIncorrect = false;
+
+                        } else if (colourInt == 2) {
+                            colour = String.valueOf(Colour.WHITE);
+                            colourIncorrect = false;
+
+                        } else if (colourInt == 3) {
+                            colour = String.valueOf(Colour.GREY);
+                            colourIncorrect = false;
+
+                        } else if (colourInt == 4) {
+                            colour = String.valueOf(Colour.BROWN);
+                            colourIncorrect = false;
+
+                        } else if (colourInt == 5) {
+                            colour = String.valueOf(Colour.RED);
+                            colourIncorrect = false;
+
+                        } else if (colourInt == 6) {
+                            colour = String.valueOf(Colour.BLUE);
+                            colourIncorrect = false;
+
+                        } else {
+                            System.out.println("Must type inn number from 1 - 6 ! Try again... \n");
+                        }
+                    }
+
+                    int numbersInWarehouse = 0;
+                    while (numbersInWarehouseBlankOrNegative) {
+                        System.out.println("Numbers in warehouse: ");
+                        System.out.println("(Must be an integer)");
+                        numbersInWarehouse = numberScanner.nextInt();
+                        if(numbersInWarehouse <= 0 || item.lengthOfNumberInputInteger(numbersInWarehouse) == 0) {
+                            System.out.println("The numbers of items in warehouse cannot be blank or set as negative or zero! Try again... \n");
+                        } else {
+                            numbersInWarehouseBlankOrNegative = false;
+                        }
+                    }
+
+                    Category categoryInput = null;
+                    while (incorrectCategoryInput) {
+                        System.out.println("Category: ");
+                        System.out.println("1: Floorlaminates, 2: Windows, 3: Doors, 4: Lumber");
+                        int categoryNumber = stringScanner.nextInt();
+
+                        if (categoryNumber == 1) {
+                            categoryInput = Category.FLOORLAMINATES;
+                            incorrectCategoryInput = false;
+
+                        } else if (categoryNumber == 2) {
+                            categoryInput = Category.WINDOWS;
+                            incorrectCategoryInput = false;
+
+                        } else if (categoryNumber == 3) {
+                            categoryInput = Category.DOORS;
+                            incorrectCategoryInput = false;
+
+                        } else if (categoryNumber == 4) {
+                            categoryInput = Category.LUMBER;
+                            incorrectCategoryInput = false;
+
+                        } else {
+                            System.out.println("Must type inn number from 1 - 4 ! Try again... \n");
+                        }
+                    }
+
+                    Item newItem = null;
+                    try {
+                        newItem = new Item(itemNumber, description, price, brandName, weight, length,
+                                height, colour, numbersInWarehouse, categoryInput);
+
+                        if(itemRegister.newItem(newItem)) {
+                            System.out.println("Item added to register successfully!");
+                        } else {
+                            System.out.println("Could not add item to register, since it is already registered!");
+                        }
+
+                    } catch (NoInputException | InvalidNumberExceptionNegative | InvalidNumberExceptionNegativeOrZero | InvalidHexCodeException e) {
+                        e.printStackTrace();
+                    }
+
+
+
                     break;
                 case LIST_ITEM_TYPES_WAREHOUSE:
                     System.out.println("There are " + itemRegister.numberOfDifferentItemsInWarehouse()
-                            + " numbers of distinct item types");
+                            + " numbers of distinct item types.");
                     System.out.println(itemRegister.toString());
                     break;
                 case FIND_ITEM_BASED_ON_DESCRIPTION:
@@ -84,7 +290,8 @@ public class GUI {
                     finished = true;
                     break;
                 default:
-                    System.out.println("Unrecognized menu selected..");
+                    System.out.println("Unrecognized menu selected");
+                    System.out.println("Returning to main menu...");
                     break;
             }
         }

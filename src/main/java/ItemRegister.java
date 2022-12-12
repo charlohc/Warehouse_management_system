@@ -72,7 +72,7 @@ public class ItemRegister {
 
   /**
      *Method that gets and returns the item number.
-     *
+     * kunne også brukt metoden ovenfor
      * @return item
   */
   public Boolean newItem(Item newItem) {
@@ -157,6 +157,14 @@ public class ItemRegister {
     return item.getPrice();
   }
 
+  public String itemsWithoutBracketsFromList() {
+    StringBuilder sb = new StringBuilder();
+    for (Item item : items) {
+      sb.append(item).append(" ");
+    }
+    return sb.toString();
+  }
+
   /**
      *Method that gets and returns the item number.
      *TODO: må gjøre til kul boks
@@ -164,6 +172,6 @@ public class ItemRegister {
   */
   @Override
   public String toString() {
-    return "ItemRegister" + "" + "items" + items ;
+    return "The items in the item-register are the following. " + "\n "+ itemsWithoutBracketsFromList();
   }
 }

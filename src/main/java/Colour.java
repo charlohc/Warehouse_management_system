@@ -8,12 +8,5 @@ public enum Colour {
     GREY,
     BROWN,
     RED,
-    BLUE,
-    GREEN,
-    PURPLE,
-    ORANGE,
-    YELLOW,
-    GOLD,
-    SILVER,
-    PINK
+    BLUE
 }

@@ -123,6 +123,12 @@ public class ItemTest {
             void testIsValidHexCode() {
                 Assertions.assertDoesNotThrow(() -> Item.isValidHexCode(itemDoorFullFunctioning.getColour()));
             }
+
+            @Test
+            void testHexCodeToColour() {
+                Item item = new Item();
+                item.hexCodeToColourName("#FFFFFF");
+            }
         }
 
     @Nested

@@ -2,6 +2,8 @@ import exceptions.InvalidHexCodeException;
 import exceptions.InvalidNumberExceptionNegative;
 import exceptions.InvalidNumberExceptionNegativeOrZero;
 import exceptions.NoInputException;
+
+import java.awt.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,16 +15,16 @@ import java.util.regex.Pattern;
  * warehouse and the category which the item is in.
  */
 public class Item {
-  private final String itemNumber;
-  private final String description;
+  private String itemNumber;
+  private String description;
   private int price;
-  private final String brandName;
-  private final double weight;
-  private final double length;
-  private final double height;
-  private final String colour;
+  private String brandName;
+  private double weight;
+  private double length;
+  private double height;
+  private String colour;
   private int numbersInWarehouse;
-  private final Category category;
+  private Category category;
 
   /**
    * Explanation of all the characteristics of an item.
@@ -82,6 +84,9 @@ public class Item {
       this.numbersInWarehouse = numbersInWarehouseInput;
       this.category = categoryInput;
     }
+  }
+  public Item (){
+
   }
 
 
@@ -163,7 +168,7 @@ public class Item {
    * @return boolean true or false, depending on if the input is blank or not
    */
   static Boolean isValidInputNotBlank(String str) {
-    return !str.equals(" ");
+    return str.trim().length() != 0;
   }
 
   /**
@@ -189,7 +194,7 @@ public class Item {
      * TODO: write more about functionality of code
   */
 
-  static Boolean isValidHexCode(String colourCode) {
+  public static Boolean isValidHexCode(String colourCode) {
     String hexColourPattern = "^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$";
 
     Pattern pattern = Pattern.compile(hexColourPattern);
@@ -199,18 +204,43 @@ public class Item {
   }
 
 
+  public int lengthOfNumberInputInteger(Integer number) {
+    return (int) (Math.log10(number)+1);
+  }
+
+  public int lengthOfNumberInputDouble(Double number) {
+    String numberToString = number.toString();
+    char[] lengthOfNumberString = numberToString.toCharArray();
+    return lengthOfNumberString.length;
+  }
+
   @Override
   public String toString() {
-    return "Item: "
-                + "itemNumber :'" + itemNumber + '\''
-                + ", description: " + description + '\''
-                + ", price: " + price
-                + ", brand: '" + brandName + '\''
-                + ", weight: " + weight
-                + ", height: " + height
-                + ", colour: '" + colour + '\''
-                + ", numbersInWarehouse: " + numbersInWarehouse
-                + ", category:" + category + "\n";
+    return "\n"
+            +  "+" + "-".repeat(20) + " + " + "-".repeat(35) + "+" + "\n"
+                + "|" +  "ItemNumber " + " ".repeat(10) + "|" + itemNumber +
+            " ".repeat(36-itemNumber.length()) + "|" + " \n"
+            +  "+" + "-".repeat(20) + " + " + "-".repeat(35) + "+" + "\n"
+            + "| " +  "Category" + " ".repeat(12) + "|" + category +
+            " ".repeat(36-category.toString().length()) + "|" + " \n"
+            + "| " +  "Description" + " ".repeat(9) + "|" + description +
+            " ".repeat(36-description.length()) + "|" + " \n"
+            + "| " +  "Colour (Hex code)" + " ".repeat(3) + "|" + colour +
+            " ".repeat(36-colour.length()) + "|" + " \n"
+            + "| " +  "Price" + " ".repeat(15) + "|" + price +
+            " ".repeat(36 - lengthOfNumberInputInteger( price)) + "|" + " \n"
+            + "| " +  "Brand" + " ".repeat(15) + "|" + brandName +
+            " ".repeat(36-brandName.length()) + "|" + " \n"
+            + "| " +  "Weight (kg)" + " ".repeat(9) + "|" + weight +
+            " ".repeat(36- lengthOfNumberInputDouble(weight)) + "|" + " \n"
+            + "| " +  "Length (m)" + " ".repeat(10) + "|" + length +
+            " ".repeat(36- lengthOfNumberInputDouble(length)) + "|" + " \n"
+            + "| " +  "Height (m)" + " ".repeat(10) + "|" + height +
+            " ".repeat(36- lengthOfNumberInputDouble(height)) + "|" + " \n"
+            + "| " +  "Stock in warehouse" + " ".repeat(2) + "|" + numbersInWarehouse +
+            " ".repeat(36- lengthOfNumberInputInteger(numbersInWarehouse)) + "|" + " \n"
+            + "+" + "-".repeat(20) + " + " + "-".repeat(35) + "+"  + "\n";
+
   }
 
 
