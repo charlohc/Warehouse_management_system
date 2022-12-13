@@ -85,12 +85,12 @@ public class ItemRegister {
 
   /**
      *Method that gets and returns the item number.
-     * TODO: write comment that says allow increase and decrease with 0 incase of user
+     *
      *
   */
   public Boolean increaseNumbersOfItemsOfTypeInWarehouse(String itemNumber, int numbersOfItemsIncrease) {
     Item item = this.findItemBasedOnItemNumber(itemNumber);
-    if (numbersOfItemsIncrease < 0) {
+    if (numbersOfItemsIncrease < 0 ) {
       return false;
     } else {
       item.setNumbersInWarehouse(item.getNumbersInWarehouse() + numbersOfItemsIncrease);
@@ -137,7 +137,6 @@ public class ItemRegister {
      * @param discountPercentage param
      * @return item
   */
-  //TODO: explain why divided discount, price and description into three methods instead of one
   public int discount(String itemNumberDiscount, float discountPercentage) {
     Item item = this.findItemBasedOnItemNumber(itemNumberDiscount);
     if (discountPercentage < 0 || item == null) {

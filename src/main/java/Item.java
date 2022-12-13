@@ -121,7 +121,7 @@ public class Item {
   /**
      *Method that gets and returns the item number.
   */
-  public Boolean setPrice(final int priceInput) {
+  public Boolean setPrice(int priceInput) {
     if (priceInput > 0) {
       this.price = priceInput;
       return true;
@@ -134,7 +134,7 @@ public class Item {
      *
      * @param numbersInWarehouseInput  item
   */
-  public Boolean setNumbersInWarehouse(final int numbersInWarehouseInput) {
+  public Boolean setNumbersInWarehouse(int numbersInWarehouseInput) {
     if (numbersInWarehouseInput > 0) {
       this.numbersInWarehouse = numbersInWarehouseInput;
       return true;
