@@ -42,7 +42,7 @@ public class ItemRegister {
    *Method that attempts to find a list of item that matches the description from user.
    *
    * @param itemDescription string which unique represents item
-   * @return a list with all the matching items
+   * @return an array list with all the matching items
    */
   public ArrayList<Item> findItemBasedOnDescription(String itemDescription) {
     ArrayList<Item> itemMatchesDescription = new ArrayList<>();
@@ -96,7 +96,7 @@ public class ItemRegister {
   public Boolean increaseNumbersOfItemsOfTypeInWarehouse(String itemNumber,
                                                          int numbersOfItemsIncrease) {
     Item item = this.findItemBasedOnItemNumber(itemNumber);
-    if (numbersOfItemsIncrease < 0) {
+    if (item == null || numbersOfItemsIncrease < 0) {
       return false;
     } else {
       item.setNumbersInWarehouse(item.getNumbersInWarehouse() + numbersOfItemsIncrease);
@@ -114,7 +114,7 @@ public class ItemRegister {
   public Boolean decreaseNumbersOfItemsOfTypeInWarehouse(String itemNumber,
                                                          int numbersOfItemsDecrease) {
     Item item = this.findItemBasedOnItemNumber(itemNumber);
-    if (numbersOfItemsDecrease < 0 || (item.getNumbersInWarehouse() - numbersOfItemsDecrease) < 0) {
+    if (item == null || numbersOfItemsDecrease < 0 || (item.getNumbersInWarehouse() - numbersOfItemsDecrease) < 0) {
       return false;
     }
     item.setNumbersInWarehouse((item.getNumbersInWarehouse() - numbersOfItemsDecrease));

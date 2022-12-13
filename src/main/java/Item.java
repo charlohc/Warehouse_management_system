@@ -27,8 +27,9 @@ public class Item {
    *                   consists of letters and numbers.
    * @param categoryInput an enum from the Category class, from the class you can choose from four
    *                   different categories: floorlaminates, windows, doors and lumber
-   * @param colourInput a string which should represent a hex code colour value
-   * @param descriptionInput a short text(140 chars) that describes the item
+   * @param colourInput an enum from the Colour class, from the class you can choose six different
+   *                    colours for the items, black, white, grey, brown, blue or red
+   * @param descriptionInput a short text that describes the item
    * @param priceInput an integer which represents the price of the item
    * @param brandNameInput a string that contains the brand of the item
    * @param weightInput a decimal number that describes the weight of the item in kilo grams

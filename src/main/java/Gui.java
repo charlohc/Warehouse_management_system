@@ -122,7 +122,7 @@ public class Gui {
   }
 
   /**
-   * Methode that lets the user calculate the discount on an item.
+   * Methode that lets the user calculate the discount of an item.
    */
   private void discountItem() {
     System.out.println("Here you can calculate the discount value of an item,\n"
@@ -538,7 +538,7 @@ public class Gui {
   }
 
   /**
-     * Method to create items and add to register.
+     * Method that adds existing items to the register.
    */
   public void preMadeItems() {
     ArrayList<Item> itemsInItemRegister = new ArrayList<>();
