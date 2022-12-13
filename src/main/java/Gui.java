@@ -99,6 +99,9 @@ public class Gui {
     gui.start();
   }
 
+  /**
+   * Methode that lets the user give an item a new price.
+   */
   private void newPriceItem() {
     System.out.println("Here you can change the price of an item type.");
     System.out.println("You will need to type in the item number of the item,\n"
@@ -118,6 +121,9 @@ public class Gui {
     }
   }
 
+  /**
+   * Methode that lets the user calculate the discount on an item.
+   */
   private void discountItem() {
     System.out.println("Here you can calculate the discount value of an item,\n"
                 + "and find out how much less a customer will pay for a specific"
@@ -151,6 +157,9 @@ public class Gui {
     }
   }
 
+  /**
+   * Methode that lets the user remove an item from the inventory.
+   */
   private void removeItemTypeFromInventory() {
     System.out.println("Here you can remove an item type "
                 + "and all of the corresponding items from the warehouse.");
@@ -169,6 +178,9 @@ public class Gui {
     }
   }
 
+  /**
+   * Methode that lets the user decrease the numbers of items in the warehouse.
+  */
   private void decreaseItemOfTypeInWarehouse() {
     System.out.println("Here you can decrease the numbers of items"
             + " of an item type in the warehouse.");
@@ -190,6 +202,9 @@ public class Gui {
     }
   }
 
+  /**
+   * Methode that lets the user increase the numbers of items in the warehouse.
+  */
   private void increaseItemOfTypeInWarehouse() {
     System.out.println("Here you can increase the numbers of items"
             + " of an item type in the warehouse.");
@@ -211,6 +226,9 @@ public class Gui {
     }
   }
 
+  /**
+   * Methode that lets the user search for an item based on the item number.
+  */
   private void findItemBasedOnItemNumber() {
     boolean searchingItemNumber = true;
     while (searchingItemNumber) {
@@ -241,6 +259,9 @@ public class Gui {
     }
   }
 
+  /**
+   * Methode that lets the user search for an item based on description.
+   */
   private void findItemBasedOnDescription() {
     boolean searchingDescription = true;
     while (searchingDescription) {
@@ -273,6 +294,9 @@ public class Gui {
     }
   }
 
+  /**
+   * Methode that lists all the different item types in the warehouse.
+   */
   private void listItemTypesWarehouse() {
     if (itemRegister.numberOfDifferentItemsInWarehouse() == 0) {
       System.out.println("No items are registered in the warehouse");
@@ -286,6 +310,9 @@ public class Gui {
     }
   }
 
+  /**
+   * Methode that lets the user add a new item to the register.
+   */
   private void addNewItem() {
     boolean inputNameBlank = true;
     System.out.println("To add a new item to the register,"
@@ -487,7 +514,7 @@ public class Gui {
     }
 
 
-    Item newItem = null;
+    Item newItem;
     try {
       newItem = new Item(itemNumberInput.toUpperCase(Locale.ROOT).trim(),
               categoryInput, colourInput,
@@ -520,7 +547,7 @@ public class Gui {
       Item blackDoor = new Item("AK10032", Category.DOORS,
                Colour.BLACK, "Black Door", 4500, "Bauhaus", 7,
                      0.8,  210,  377);
-      Item greyDoor = new Item("SJ14239",Category.DOORS , Colour.BLACK,
+      Item greyDoor = new Item("SJ14239", Category.DOORS, Colour.BLACK,
               "Black Door", 2999, "IKEA", 5.2,
                     0.77, 2.05,  801);
       Item whiteGreyFloorlaminate = new Item("FO95722", Category.FLOORLAMINATES,

@@ -1,5 +1,5 @@
 /**
- * Colour enum class, shows the different colour the item can have
+ * Colour enum class, shows the different colour the item can have.
  */
 public enum Colour {
     BLACK,
