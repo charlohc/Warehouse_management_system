@@ -2,8 +2,6 @@ import exceptions.InvalidNumberExceptionNegative;
 import exceptions.InvalidNumberExceptionNegativeOrZero;
 import exceptions.NoInputException;
 
-import java.util.ArrayList;
-
 /**
  * Entity class Item which initializes an item based on price,
  * brand name, weight, length, colour,
@@ -12,42 +10,41 @@ import java.util.ArrayList;
  */
 public class Item {
   private String itemNumber;
+  private Category category;
+  private Colour colour;
   private String description;
   private int price;
   private String brandName;
   private double weight;
   private double length;
   private double height;
-  private Colour colour;
   private int numbersInWarehouse;
-  private Category category;
 
   /**
    * Explanation of all the characteristics of an item.
    *
    *  @param itemNumberInput itemNumberInput ,unique code which identifies each item,
    *                   consists of letters and numbers.
+   * @param categoryInput an enum from the Category class, from the class you can choose from four
+   *                   different categories: floorlaminates, windows, doors and lumber
+   * @param colourInput a string which should represent a hex code colour value
    * @param descriptionInput a short text(140 chars) that describes the item
    * @param priceInput an integer which represents the price of the item
    * @param brandNameInput a string that contains the brand of the item
    * @param weightInput a decimal number that describes the weight of the item in kilo grams
    * @param lengthInput a decimal number that describes the length of the item in cm
    * @param heightInput a decimal number that describes the height of the item in cm
-   * @param colourInput a string which should represent a hex code colour value
    * @param numbersInWarehouseInput an Integer that tells how many of that item that is in stock
    *                    in the warehouse
-   * @param categoryInput an enum from the Category class, from the class you can choose from four
-   *                    different categories: floorlaminates, windows, doors and lumber
    * @throws NoInputException throws an exception if the input from user is blank
    * @throws InvalidNumberExceptionNegativeOrZero throws an exception if the user input number
    *                    is negative or zero
    * @throws InvalidNumberExceptionNegative throws an exception if the user input is negative
    */
 
-  public Item(String itemNumberInput, String descriptionInput, int priceInput,
+  public Item(String itemNumberInput, Category categoryInput, Colour colourInput, String descriptionInput, int priceInput,
               String brandNameInput, double weightInput, double lengthInput,
-              double heightInput, Colour colourInput, int numbersInWarehouseInput,
-              Category categoryInput) throws NoInputException,
+              double heightInput, int numbersInWarehouseInput) throws NoInputException,
           InvalidNumberExceptionNegativeOrZero, InvalidNumberExceptionNegative {
 
     if (!isValidInputNotBlank(itemNumberInput) || !isValidInputNotBlank(descriptionInput)
@@ -65,69 +62,61 @@ public class Item {
 
     } else {
       this.itemNumber = itemNumberInput;
+      this.category = categoryInput;
+      this.colour = colourInput;
       this.description = descriptionInput;
       this.price = priceInput;
       this.brandName = brandNameInput;
       this.weight = weightInput;
       this.length = lengthInput;
       this.height = heightInput;
-      this.colour = colourInput;
       this.numbersInWarehouse = numbersInWarehouseInput;
-      this.category = categoryInput;
     }
   }
   public Item (){
 
   }
 
-
   public String getItemNumber() {
     return itemNumber;
+  }
+
+  public Category getCategory() {
+    return category;
+  }
+
+  public Colour getColour() {
+    return colour;
   }
 
   public String getDescription() {
     return description;
   }
 
-
   public int getPrice() {
     return price;
   }
-
 
   public String getBrandName() {
     return brandName;
   }
 
-
   public double getWeight() {
     return weight;
   }
-
 
   public double getLength() {
     return length;
   }
 
-
   public double getHeight() {
     return height;
   }
-
-
-  public Colour getColour() {
-    return colour;
-  }
-
 
   public int getNumbersInWarehouse() {
     return numbersInWarehouse;
   }
 
-
-  public Category getCategory() {
-    return category;
-  }
 
   /**
      *Method that gets and returns the item number.
@@ -199,11 +188,11 @@ public class Item {
             +  "+" + "-".repeat(20) + " + " + "-".repeat(35) + "+" + "\n"
             + "| " +  "Category" + " ".repeat(12) + "| " + category +
             " ".repeat(36-category.toString().length()) + "|" + " \n"
+            + "| " +  "Colour" + " ".repeat(14) + "| " + colour +
+            " ".repeat(36-colour.toString().length()) + "|" + " \n"
             + "| " +  "Description" + " ".repeat(9) + "| " + description +
             " ".repeat(36-description.length()) + "|" + " \n"
-            + "| " +  "Colour (Hex code)" + " ".repeat(3) + "| " + colour +
-            " ".repeat(36-colour.toString().length()) + "|" + " \n"
-            + "| " +  "Price" + " ".repeat(15) + "| " + price +
+            + "| " +  "Price (kr)" + " ".repeat(10) + "| " + price +
             " ".repeat(36 - lengthOfNumberInputInteger( price)) + "|" + " \n"
             + "| " +  "Brand" + " ".repeat(15) + "| " + brandName +
             " ".repeat(36-brandName.length()) + "|" + " \n"

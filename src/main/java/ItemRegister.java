@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 
 
-//TODO: legg inn lambda, legg inn slik at konsekvent true eller false return først
-
 /**
  * Register class which holds all the items and several important methods such as.
  */
@@ -140,13 +138,13 @@ public class ItemRegister {
      * @return item
   */
   //TODO: explain why divided discount, price and description into three methods instead of one
-  public int discount(String itemNumberDiscount, int discountPercentage) {
+  public int discount(String itemNumberDiscount, float discountPercentage) {
     Item item = this.findItemBasedOnItemNumber(itemNumberDiscount);
-    if (discountPercentage >= 0) {
-      return (item.getPrice() / 100) * discountPercentage;
+    if (discountPercentage < 0 || item == null) {
+      return -1;
     }
-
-    return -1;
+    float discountInKr = ((float)item.getPrice() / 100) * discountPercentage;
+    return (int) discountInKr;
   }
 
   /**
@@ -158,6 +156,9 @@ public class ItemRegister {
   */
   public int newPrice(String itemNumberNewPrice, int newPrice)  {
     Item item = this.findItemBasedOnItemNumber(itemNumberNewPrice);
+    if (newPrice <= 0 || item == null) {
+      return -1;
+    }
     item.setPrice(newPrice);
     return item.getPrice();
   }

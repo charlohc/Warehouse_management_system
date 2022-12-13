@@ -9,8 +9,8 @@ public class ItemTest {
 
     @BeforeEach
     void setUp() throws InvalidNumberExceptionNegativeOrZero, NoInputException, InvalidNumberExceptionNegative {
-        itemDoorFullFunctioning = new Item("AQ378912", "White Door with one small window", 2050,
-                "Swedoor", 5, 0.4, 2.05, Colour.WHITE, 14, Category.DOORS);
+        itemDoorFullFunctioning = new Item("AQ378912",Category.DOORS, Colour.WHITE,"White Door with one small window", 2050,
+                "Swedoor", 5, 0.4, 2.05, 14);
     }
 
     @Nested
@@ -53,7 +53,7 @@ public class ItemTest {
 
         @Test
         void getColour() {
-            Assertions.assertEquals("#FFFFFF", itemDoorFullFunctioning.getColour());
+            Assertions.assertEquals(Colour.WHITE, itemDoorFullFunctioning.getColour());
         }
 
         @Test
@@ -126,8 +126,8 @@ public class ItemTest {
         void invalidStringInputDescription() {
 
             assertThrows(NoInputException.class, () -> {
-                Item itemWithoutOutDescription = new Item("AQ378912", " ", 2050,
-                        "Swedoor", 5, 0.4, 2.05, Colour.WHITE, 14, Category.DOORS);
+                Item itemWithoutOutDescription = new Item("AQ378912", Category.DOORS, Colour.WHITE,  " ", 2050,
+                        "Swedoor", 5, 0.4, 2.05, 14);
 
             });
 
@@ -137,8 +137,8 @@ public class ItemTest {
         void invalidNumberInput() {
 
             assertThrows(InvalidNumberExceptionNegativeOrZero.class, () -> {
-                Item itemWithZeroWeight = new Item("AQ378912", "White door with small window ", 2050,
-                        "Swedoor", 0, 0.4, 2.05, Colour.WHITE, 14, Category.DOORS);
+                Item itemWithZeroWeight = new Item("AQ378912", Category.DOORS, Colour.WHITE, "White door with small window ", 2050,
+                        "Swedoor", 0, 0.4, 2.05, 14);
 
             });
 

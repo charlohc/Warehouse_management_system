@@ -6,14 +6,12 @@ import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-//TODO: hvis tid, legge inn mer rimelig rekkefølge på attributtene,lage definert item number
-
 public class GUI {
     private ItemRegister itemRegister;
     Item item = new Item();
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_GREEN = "\u001B[32m";
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_GREEN = "\u001B[32m";
 
     Scanner stringScanner = new Scanner(System.in);
     Scanner numberScanner = new Scanner(System.in);
@@ -101,33 +99,33 @@ public class GUI {
         String itemNumberChangePrice = stringScanner.nextLine();
         System.out.println("Type in the new price (only digits):");
         int newPrice = numberScanner.nextInt();
-        if (itemRegister.newPrice(itemNumberChangePrice, newPrice) > 0) {
-            System.out.println(ANSI_GREEN + "The prices was successfully changed! " + ANSI_RESET);
-        } else {
+        if (itemRegister.newPrice(itemNumberChangePrice.trim(), newPrice) == -1) {
             System.out.println(ANSI_RED + "The price change was unsuccessful! \n"
                     + "Either there is no item with the item number: " + itemNumberChangePrice
                     + ", or the new price was not valid" + ANSI_RESET);
+        } else {
+            System.out.println(ANSI_GREEN + "The prices was successfully changed! " + ANSI_RESET);
         }
     }
 
     private void discountItem() {
-        System.out.println("Here you can calculate the discount value of an item,"
-                + " and find out how much less a customer will pay for a specific discount percentage.");
+        System.out.println("Here you can calculate the discount value of an item,\n"
+                + "and find out how much less a customer will pay for a specific discount percentage.");
         System.out.println("You will need to type in the item number of the item,\n"
                 + "to identify which item you want to calculate the discount.");
         System.out.println("-".repeat(60));
         System.out.println("You can now type in the item number: ");
         String itemNumberDiscount = stringScanner.nextLine();
-        System.out.println("Type in the discount number (without % sign):");
+        System.out.println("Type in the discount number (only digits):");
         String discountInPercentage = stringScanner.nextLine();
 
-        if (itemRegister.discount(itemNumberDiscount, Integer.parseInt(discountInPercentage)) == -1) {
+        if (itemRegister.discount(itemNumberDiscount.trim(), Integer.parseInt(discountInPercentage)) == -1) {
             System.out.println(ANSI_RED + "The discount calculation was unsuccessful! \n"
                     + "Either there is no item with the item number: " + itemNumberDiscount
                     + ", or the discount value was not valid." + ANSI_RESET);
         } else {
-            Item itemCalculatedDiscount = itemRegister.findItemBasedOnItemNumber(itemNumberDiscount);
-            int discountInKr = itemRegister.discount(itemNumberDiscount, Integer.parseInt(discountInPercentage));
+            Item itemCalculatedDiscount = itemRegister.findItemBasedOnItemNumber(itemNumberDiscount.trim());
+            int discountInKr = itemRegister.discount(itemNumberDiscount.trim(), Integer.parseInt(discountInPercentage));
 
             System.out.println(ANSI_GREEN + "The discount calculation was successful! " + ANSI_RESET);
             System.out.println("".repeat(60));
@@ -146,7 +144,7 @@ public class GUI {
         System.out.println("You can now type in the item number: ");
         String itemNumberRemoveItem = stringScanner.nextLine();
 
-        if (itemRegister.removeItemFromInventory(itemNumberRemoveItem)) {
+        if (itemRegister.removeItemFromInventory(itemNumberRemoveItem.trim())) {
             System.out.println(ANSI_GREEN + "The removal was successful! " + ANSI_RESET);
         } else {
             System.out.println(ANSI_RED + "The removal was unsuccessful! \n"
@@ -156,38 +154,38 @@ public class GUI {
 
     private void decreaseItemOfTypeInWarehouse() {
         System.out.println("Here you can decrease the numbers of items of an item type in the warehouse.");
-        System.out.println("You will need to type in the item number of the item,\n"
+        System.out.println("You will need to type in the item number of the item, "
                 + "to identify which item you want to increase.");
         System.out.println("-".repeat(60));
         System.out.println("You can now type in the item number: ");
         String itemNumberDecreaseWarehouse = stringScanner.nextLine();
-        System.out.println("Type in how many items you want to increase with:");
+        System.out.println("Type in how many items you want it to decrease with:");
         String decreasement = stringScanner.nextLine();
 
-        if (itemRegister.increaseNumbersOfItemsOfTypeInWarehouse(itemNumberDecreaseWarehouse, Integer.parseInt(decreasement))) {
+        if (itemRegister.decreaseNumbersOfItemsOfTypeInWarehouse(itemNumberDecreaseWarehouse.trim(), Integer.parseInt(decreasement))) {
             System.out.println(ANSI_GREEN + "The decreasement was successful! " + ANSI_RESET);
         } else {
             System.out.println(ANSI_RED + "The decreasement was unsuccessful! \n"
                     + "Either there is no item with the item number: " + itemNumberDecreaseWarehouse
-                    + ", or the decreasement value was not valid." + ANSI_RESET);
+                    + ",or the decreasement value was not valid." + ANSI_RESET);
         }
     }
     private void increaseItemOfTypeInWarehouse() {
         System.out.println("Here you can increase the numbers of items of an item type in the warehouse.");
-        System.out.println("You will need to type in the item number of the item,\n"
-                + "to identify which item you want to increase.");
+        System.out.println("You will need to type in the item number of the item,"
+                + " to identify which item you want to increase.");
         System.out.println("-".repeat(60));
         System.out.println("You can now type in the item number: ");
         String itemNumberIncreaseWarehouse = stringScanner.nextLine();
         System.out.println("Type in how many items you want to increase with:");
         String increasement = stringScanner.nextLine();
 
-        if (itemRegister.increaseNumbersOfItemsOfTypeInWarehouse(itemNumberIncreaseWarehouse, Integer.parseInt(increasement))) {
+        if (itemRegister.increaseNumbersOfItemsOfTypeInWarehouse(itemNumberIncreaseWarehouse.trim(), Integer.parseInt(increasement))) {
             System.out.println(ANSI_GREEN + "The increasement was successful! " + ANSI_RESET);
         } else {
             System.out.println(ANSI_RED + "The increasement was unsuccessful! \n"
                     + "Either there is no item with the item number: " + itemNumberIncreaseWarehouse
-                    + ", or the increasement value was not valid." + ANSI_RESET);
+                    + ",or the increasement value was not valid." + ANSI_RESET);
         }
     }
 
@@ -200,7 +198,7 @@ public class GUI {
 
             String itemNumberSearchInput = stringScanner.nextLine();
 
-            if (itemRegister.findItemBasedOnItemNumber(itemNumberSearchInput) == null) {
+            if (itemRegister.findItemBasedOnItemNumber(itemNumberSearchInput.trim()) == null) {
                 System.out.println(ANSI_RED + "Could not find any item matching your item number.." + ANSI_RESET);
                 System.out.println("-".repeat(60));
                 System.out.println("Do you want another search?"
@@ -213,7 +211,7 @@ public class GUI {
 
             } else {
                 System.out.println(ANSI_GREEN + "Found an item matching the item number!" + ANSI_RESET);
-                System.out.println(itemRegister.findItemBasedOnItemNumber(itemNumberSearchInput).toString());
+                System.out.println(itemRegister.findItemBasedOnItemNumber(itemNumberSearchInput.trim()).toString());
                 searchingItemNumber = false;
             }
         }
@@ -256,6 +254,7 @@ public class GUI {
                     + " numbers of distinct item types.");
             System.out.println("there are in total " + itemRegister.totalNumberOfItemsInWarehouse()
                     + " items stored in the warehouse");
+            System.out.println("-".repeat(60));
             System.out.println(itemRegister.toString());
         }
     }
@@ -287,13 +286,75 @@ public class GUI {
             }
         }
 
+        Category categoryInput = null;
+        while (incorrectCategoryInput) {
+            System.out.println("Category: ");
+            System.out.println("1: Floorlaminates, 2: Windows, 3: Doors, 4: Lumber");
+            String categoryNumber = stringScanner.nextLine();
+
+            if (categoryNumber.equals(String.valueOf(1))) {
+                categoryInput = Category.FLOORLAMINATES;
+                incorrectCategoryInput = false;
+
+            } else if (categoryNumber.equals(String.valueOf(2))) {
+                categoryInput = Category.WINDOWS;
+                incorrectCategoryInput = false;
+
+            } else if (categoryNumber.equals(String.valueOf(3))) {
+                categoryInput = Category.DOORS;
+                incorrectCategoryInput = false;
+
+            } else if (categoryNumber.equals(String.valueOf(4))) {
+                categoryInput = Category.LUMBER;
+                incorrectCategoryInput = false;
+
+            } else {
+                System.out.println(ANSI_RED + "Must type inn number from 1 - 4 ! Try again... \n" + ANSI_RESET);
+            }
+        }
+
+        Colour colourInput = null;
+        while (colourIncorrect) {
+            System.out.println("Colour: ");
+            System.out.println("1: Black, 2: White, 3: Grey, 4: Brown, 5: Red, 6: Blue");
+            String colourChoiceIntString = stringScanner.nextLine();
+
+            if (colourChoiceIntString.equals(String.valueOf(1))) {
+                colourInput = Colour.BLACK;
+                colourIncorrect = false;
+
+            } else if (colourChoiceIntString.equals(String.valueOf(2))) {
+                colourInput = Colour.WHITE;
+                colourIncorrect = false;
+
+            } else if (colourChoiceIntString.equals(String.valueOf(3))) {
+                colourInput =Colour.GREY;
+                colourIncorrect = false;
+
+            } else if (colourChoiceIntString.equals(String.valueOf(4))) {
+                colourInput = Colour.BROWN;
+                colourIncorrect = false;
+
+            } else if (colourChoiceIntString.equals(String.valueOf(5))) {
+                colourInput = Colour.RED;
+                colourIncorrect = false;
+
+            } else if (colourChoiceIntString.equals(String.valueOf(6))) {
+                colourInput = Colour.BLUE;
+                colourIncorrect = false;
+
+            } else {
+                System.out.println( ANSI_RED + "Must type inn number from 1 - 6 ! Try again... \n" + ANSI_RESET);
+            }
+        }
+
         String descriptionInput = null;
         while (descriptionBlank) {
             System.out.println("Short description (max. 35 signs): ");
             System.out.println("Format: Colour + category, Example: White window");
             descriptionInput = stringScanner.nextLine();
-            if(descriptionInput.trim().length() == 0) {
-                System.out.println( ANSI_RED + "Description cannot be blank! Try again... \n" + ANSI_RESET);
+            if(descriptionInput.trim().length() == 0 || !descriptionInput.matches(".*[a-zA-Z]+.*")) {
+                System.out.println( ANSI_RED + "Description cannot be blank or not contain any letters! Try again... \n" + ANSI_RESET);
             } else {
                 descriptionBlank = false;
             }
@@ -327,7 +388,7 @@ public class GUI {
         String weightInput = null;
         while (weightBlankOrNegative) {
             System.out.println("Weight in kg: ");
-            System.out.println("(decimal number must be made with '.')");
+            System.out.println("(Decimal number must be made with '.')");
             weightInput = numberScanner.nextLine();
             if(!(weightInput.matches("[0-9]+") || weightInput.contains("."))|| item.lengthOfNumberInputDouble(Double.valueOf(weightInput)) == 0 || weightInput.trim().equals("0") ) {
                 System.out.println(ANSI_RED + "Weight cannot be blank or set to zero or a negative value, or contain special characters! "
@@ -340,7 +401,7 @@ public class GUI {
         String lengthInput = null;
         while (lengthBlankOrNegative) {
             System.out.println("Length in m: ");
-            System.out.println("(decimal number must be made with '.')");
+            System.out.println("(Decimal number must be made with '.')");
             lengthInput = numberScanner.nextLine();
             if(!(lengthInput.matches("[0-9]+") || lengthInput.contains("."))|| item.lengthOfNumberInputDouble(Double.valueOf(lengthInput)) == 0 || lengthInput.trim().equals("0") ) {
                 System.out.println(ANSI_RED + "Length cannot be blank or set to zero or a negative value, or contain special characters!"
@@ -353,48 +414,13 @@ public class GUI {
         String heightInput = null;
         while (heightBlankOrNegative) {
             System.out.println("Height in m: ");
-            System.out.println("(decimal number must be made with '.')");
+            System.out.println("(Decimal number must be made with '.')");
             heightInput = numberScanner.nextLine();
             if(!(heightInput.matches("[0-9]+") || heightInput.contains("."))|| item.lengthOfNumberInputDouble(Double.valueOf(heightInput)) == 0 || heightInput.trim().equals("0")) {
                 System.out.println(ANSI_RED + "Height cannot be blank or set to zero or a negative value, or contain special characters!"
                         + " Try again... \n" + ANSI_RESET);
             } else {
                 heightBlankOrNegative = false;
-            }
-        }
-
-        Colour colourInput = null;
-        while (colourIncorrect) {
-            System.out.println("Colour: ");
-            System.out.println("1: Black, 2: White, 3: Grey, 4: Brown, 5: Red, 6: Blue");
-            String colourChoiceIntString = stringScanner.nextLine();
-
-            if (colourChoiceIntString.equals(String.valueOf(1))) {
-                colourInput = Colour.BLACK;
-                colourIncorrect = false;
-
-            } else if (colourChoiceIntString.equals(String.valueOf(2))) {
-                colourInput = Colour.WHITE;
-                colourIncorrect = false;
-
-            } else if (colourChoiceIntString.equals(String.valueOf(3))) {
-                colourInput =Colour.GREY;
-                colourIncorrect = false;
-
-            } else if (colourChoiceIntString.equals(String.valueOf(4))) {
-                colourInput = Colour.BROWN;
-                colourIncorrect = false;
-
-            } else if (colourChoiceIntString.equals(String.valueOf(6))) {
-                colourInput = Colour.RED;
-                colourIncorrect = false;
-
-            } else if (colourChoiceIntString.equals(String.valueOf(7))) {
-                colourInput = Colour.BLUE;
-                colourIncorrect = false;
-
-            } else {
-                System.out.println( ANSI_RED + "Must type inn number from 1 - 6 ! Try again... \n" + ANSI_RESET);
             }
         }
 
@@ -412,43 +438,17 @@ public class GUI {
             }
         }
 
-        Category categoryInput = null;
-        while (incorrectCategoryInput) {
-            System.out.println("Category: ");
-            System.out.println("1: Floorlaminates, 2: Windows, 3: Doors, 4: Lumber");
-            String categoryNumber = stringScanner.nextLine();
-
-            if (categoryNumber.equals(String.valueOf(1))) {
-                categoryInput = Category.FLOORLAMINATES;
-                incorrectCategoryInput = false;
-
-            } else if (categoryNumber.equals(String.valueOf(2))) {
-                categoryInput = Category.WINDOWS;
-                incorrectCategoryInput = false;
-
-            } else if (categoryNumber.equals(String.valueOf(3))) {
-                categoryInput = Category.DOORS;
-                incorrectCategoryInput = false;
-
-            } else if (categoryNumber.equals(String.valueOf(4))) {
-                categoryInput = Category.LUMBER;
-                incorrectCategoryInput = false;
-
-            } else {
-                System.out.println(ANSI_RED + "Must type inn number from 1 - 4 ! Try again... \n" + ANSI_RESET);
-            }
-        }
 
         Item newItem = null;
         try {
-            newItem = new Item(itemNumberInput.toUpperCase(Locale.ROOT), descriptionInput, Integer.parseInt(priceInput),
+            newItem = new Item(itemNumberInput.toUpperCase(Locale.ROOT).trim(), categoryInput, colourInput, descriptionInput, Integer.parseInt(priceInput),
                     brandNameInput, Double.parseDouble(weightInput), Double.parseDouble(lengthInput),
-                    Double.parseDouble(heightInput), colourInput, Integer.parseInt(numbersInWarehouseInput), categoryInput);
+                    Double.parseDouble(heightInput), Integer.parseInt(numbersInWarehouseInput));
 
             if(itemRegister.newItem(newItem)) {
                 System.out.println(ANSI_GREEN + "Item added to register successfully!" + ANSI_RESET);
             } else {
-                System.out.println(ANSI_RED + "Could not add item to register, since it is already registered!" + ANSI_RESET);
+                System.out.println(ANSI_RED + "Could not add item to register, since the item number is already registered!" + ANSI_RESET);
             }
 
         } catch (NoInputException | InvalidNumberExceptionNegative | InvalidNumberExceptionNegativeOrZero e) {
@@ -460,12 +460,12 @@ public class GUI {
         ArrayList<Item> itemsInItemRegister = new ArrayList<>();
 
         try {
-            Item blackDoor = new Item("AK10032", "Black Door", 4500, "Bauhaus", 7,
-                    0.8, 210,Colour.BLACK , 377, Category.DOORS);
-            Item greyDoor = new Item("SJ14239", "Black Door", 2999, "IKEA", 5.2,
-                    0.77, 2.05, Colour.BLACK, 801, Category.DOORS);
-            Item whiteGreyFloorlaminate = new Item("FO95722", "White-Grey floor laminate", 699, "Monter", 0.7,
-                    1, 0.05, Colour.WHITE, 482, Category.FLOORLAMINATES);
+            Item blackDoor = new Item("AK10032", Category.DOORS, Colour.BLACK , "Black Door", 4500, "Bauhaus", 7,
+                    0.8, 210, 377);
+            Item greyDoor = new Item("SJ14239",  Category.DOORS , Colour.BLACK, "Black Door", 2999, "IKEA", 5.2,
+                    0.77, 2.05,  801);
+            Item whiteGreyFloorlaminate = new Item("FO95722", Category.FLOORLAMINATES, Colour.WHITE, "White-Grey floor laminate", 699,
+                    "Monter", 0.7, 1, 0.05, 482);
 
             itemsInItemRegister.add(blackDoor);
             itemsInItemRegister.add(greyDoor);

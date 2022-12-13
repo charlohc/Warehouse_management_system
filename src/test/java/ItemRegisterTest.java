@@ -15,16 +15,16 @@ class ItemRegisterTest {
     @BeforeEach
     void setUp() throws InvalidNumberExceptionNegativeOrZero, NoInputException, InvalidNumberExceptionNegative {
 
-        itemDoor = new Item("AQ378912", "White Door with one small window", 2050,
-                "Swedoor", 5, 0.4, 2.05, Colour.WHITE, 14, Category.DOORS);
+        itemDoor = new Item("AQ378912", Category.DOORS, Colour.WHITE, "White Door with one small window", 2050,
+                "Swedoor", 5, 0.4, 2.05,14);
 
-        itemWindowBig = new Item("ZU34436", "Black window", 6000, "Skanva", 12, 1,
-                1, Colour.BLACK,5,Category.WINDOWS);
-        itemWindowMedium = new Item("ZZ214356", "Black window", 4299, "Skanva", 8, 0.6,
-                0.6, Colour.BLACK,12,Category.WINDOWS);
+        itemWindowBig = new Item("ZU34436", Category.WINDOWS, Colour.BLACK, "Black window", 6000, "Skanva", 12, 1,
+                1, 5);
+        itemWindowMedium = new Item("ZZ214356", Category.WINDOWS, Colour.BLACK, "Black window", 4299, "Skanva", 8, 0.6,
+                0.6, 12);
 
-        itemFloorLaminateNotInRegister = new Item("IL2239", "Brown floorLaminate", 1499, "Montér",
-                0.5, 1, 0.05, Colour.BROWN, 188, Category.FLOORLAMINATES);
+        itemFloorLaminateNotInRegister = new Item("IL2239",  Category.FLOORLAMINATES,  Colour.BROWN,"Brown floorLaminate", 1499, "Montér",
+                0.5, 1, 0.05, 188);
 
 
         items.add(itemDoor);
@@ -66,8 +66,8 @@ class ItemRegisterTest {
         @Test
         void newItemSuccess() throws InvalidNumberExceptionNegativeOrZero, NoInputException, InvalidNumberExceptionNegative {
             int numbersInWareHouse = itemRegister.numberOfDifferentItemsInWarehouse();
-            Item itemLumber = new Item("QW21345", "Brown lumber", 2999, "Timber CO",
-                    12, 3, 0.3, Colour.BROWN, 400, Category.LUMBER);
+            Item itemLumber = new Item("QW21345",  Category.LUMBER,  Colour.BROWN, "Brown lumber", 2999, "Timber CO",
+                    12, 3, 0.3, 400);
 
             itemRegister.newItem(itemLumber);
 
@@ -128,8 +128,8 @@ class ItemRegisterTest {
     @DisplayName("Attempt at adding item with exsisting itemnumber to the register twice, gives an exception")
     void newItemFailure() throws InvalidNumberExceptionNegativeOrZero, NoInputException, InvalidNumberExceptionNegative {
 
-        Item itemLumber = new Item("AQ378912", "Brown lumber", 2999, "Timber CO",
-                12, 3, 0.3, Colour.BROWN, 400, Category.LUMBER);
+        Item itemLumber = new Item("AQ378912", Category.LUMBER,  Colour.BROWN, "Brown lumber", 2999, "Timber CO",
+                12, 3, 0.3, 400);
 
         Assertions.assertFalse(itemRegister.newItem(itemLumber));
     }
